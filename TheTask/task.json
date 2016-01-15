@@ -1,0 +1,249 @@
+{
+    "id": "93A90AA0-1901-41C2-B5FD-32D92D85EE5C",
+    "name": "RedgateSqlRelease",
+    "friendlyName": "Redgate SQL Release",
+    "description": "Safely deploy databases with Redgate's SQL Release technology",
+    "helpMarkDown": "[More Information](http://documentation.red-gate.com/display/SR1/SQL+Release+documentation)",
+    "category": "Deploy",
+    "visibility": [
+        "Build", "Release"
+    ],
+    "author": "Redgate Software",
+    "version": {
+        "Major": 1,
+        "Minor": 0,
+        "Patch": 1
+    },
+    "demands": [
+
+    ],
+    "minimumAgentVersion": "1.83.0",
+    "groups": [
+        {
+            "name": "targetDatabase",
+            "displayName": "Target database",
+            "isExpanded": true
+        }
+    ],
+    "inputs": [     
+		{	
+            "name": "Operation",
+            "type": "pickList",
+            "label": "Operation",
+            "defaultValue": "Create",
+            "required": true,
+            "options": {
+                "Create"           :    "Create a database release",
+                "DeployFromPackage":    "Deploy a database release from a package",
+                "DeployFromResources":  "Deploy a database release from deployment resources",
+                "DeployFromDatabase":   "Deploy a database to a database"
+            },
+            "helpMarkDown": "Specify the SQL Release operation you want to perform"
+        },
+		
+		{
+            "name": "NuGetFile",
+            "type": "filePath",
+            "label": "Database package",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Path of NuGet package to deploy.",
+            "visibleRule": "Operation = Create"
+        },
+		{
+            "name": "ExportPath",
+            "type": "string",
+            "label": "Export Path",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Path to export database resources to. Leave blank if you want it to be automatically determined.",
+            "visibleRule": "Operation = Create"
+        },
+		
+		
+		{
+            "name": "PackagePath",
+            "type": "filePath",
+            "label": "Package Path",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "Path to package.",
+            "visibleRule": "Operation = DeployFromPackage"
+        },
+		
+		
+		{
+            "name": "ImportPath",
+            "type": "string",
+            "label": "Deployment Resources Path",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Path to get database resources from. Leave blank if you want it to be automatically determined.",
+            "visibleRule": "Operation = DeployFromResources"
+        },
+		
+		
+		
+        {
+            "name": "SourceDatabaseServer",
+            "type": "string",
+            "label": "Source SQL Server instance",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The fully qualified SQL Server instance name for the source database.",
+            "visibleRule": "Operation = DeployFromDatabase"
+        },
+        {
+            "name": "SourceDatabaseName",
+            "type": "string",
+            "label": "Source database name",
+            "defaultValue": "",
+            "required": true,
+            "visibleRule": "Operation = DeployFromDatabase"
+        },
+        {
+            "name": "SourceAuthMethod",
+            "type": "pickList",
+            "label": "Authentication Method",
+            "defaultValue": "sqlServerAuth",
+            "required": true,
+            "options": {
+                "sqlServerAuth": "SQL Server authentication",
+                "windowsAuth": "Windows authentication"
+            },
+            "visibleRule": "Operation = DeployFromDatabase"
+        },
+        {
+            "name": "SourceDatabaseUsername",
+            "type": "string",
+            "label": "Username",
+            "defaultValue": "",
+            "required": true,
+            "visibleRule": "SourceAuthMethod = sqlServerAuth",
+            "helpMarkDown": "The SQL Server username used to connect to the source database."
+        },
+        {
+            "name": "SourceDatabasePassword",
+            "type": "string",
+            "label": "Password",
+            "defaultValue": "",
+            "visibleRule": "SourceAuthMethod = sqlServerAuth"
+        },
+		
+		
+		
+        {
+            "name": "TargetDatabaseServer",
+            "type": "string",
+            "label": "Target SQL Server instance",
+            "defaultValue": "",
+            "required": true,
+            "helpMarkDown": "The fully qualified SQL Server instance name for the target database.",
+            "groupName": "targetDatabase"
+        },
+        {
+            "name": "TargetDatabaseName",
+            "type": "string",
+            "label": "Target database name",
+            "defaultValue": "",
+            "required": true,
+            "groupName": "targetDatabase"
+        },
+        {
+            "name": "TargetAuthMethod",
+            "type": "pickList",
+            "label": "Authentication Method",
+            "defaultValue": "sqlServerAuth",
+            "required": true,
+            "options": {
+                "sqlServerAuth": "SQL Server authentication",
+                "windowsAuth": "Windows authentication"
+            },
+            "groupName": "targetDatabase"
+        },
+        {
+            "name": "TargetDatabaseUsername",
+            "type": "string",
+            "label": "Username",
+            "defaultValue": "",
+            "required": true,
+            "visibleRule": "TargetAuthMethod = sqlServerAuth",
+            "helpMarkDown": "The SQL Server username used to connect to the database.",
+            "groupName": "targetDatabase"
+        },
+        {
+            "name": "TargetDatabasePassword",
+            "type": "string",
+            "label": "Password",
+            "defaultValue": "",
+            "visibleRule": "TargetAuthMethod = sqlServerAuth",
+            "required": true,
+            "groupName": "targetDatabase"
+        },
+		
+		
+        {
+            "name": "DeleteFilesInExportFolder",
+            "type": "boolean",
+            "label": "Delete files in export folder",
+            "defaultValue": "true",
+            "required": false,
+            "visibleRule": "Operation = Create"
+        },
+        {
+            "name": "IgnoreStaticDataCreate",
+            "type": "boolean",
+            "label": "Ignore static data",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "Excludes changes to static data when generating the deployment resources.",
+            "visibleRule": "Operation = Create"
+        },
+        {
+            "name": "IgnoreStaticDataDeployFromPackage",
+            "type": "boolean",
+            "label": "Ignore static data",
+            "defaultValue": "false",
+            "required": false,
+            "helpMarkDown": "Excludes changes to static data when deploying from the package.",
+            "visibleRule": "Operation = DeployFromPackage"
+        },
+		{
+		    "name": "SqlCompareOptions",
+            "type": "string",
+            "label": "SQL Compare options",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "SQL Compare options to apply when generating the update script.",
+            "visibleRule": "Operation != DeployFromResources"
+		},
+        {
+            "name": "QueryBatchTimeout",
+            "type": "string",
+            "label": "Query batch timeout (in seconds)",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "The execution timeout, in seconds, for each batch of queries in the update script. The default value is 30 seconds. A value of zero indicates no execution timeout.",
+            "visibleRule": "Operation != Create"
+        },
+        {
+            "name": "FilterPath",
+            "type": "string",
+            "label": "Filter Path",
+            "defaultValue": "",
+            "required": false,
+            "helpMarkDown": "Specify the location of a SQL Compare filter file (.scpf), which defines objects to include/exclude in the schema comparison. Filter files are generated by SQL Source Control.",
+            "visibleRule": "Operation != DeployFromResources"
+        }
+		
+		
+    ],
+    "instanceNameFormat": "Perform $(Operation)",
+    "execution": {
+        "PowerShell": {
+            "target": "$(currentDirectory)\\RunSQLRelease.ps1",
+            "argumentFormat": "",
+            "workingDirectory": "$(currentDirectory)"
+        }
+    }
+}
