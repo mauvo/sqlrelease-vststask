@@ -13,11 +13,11 @@ $targetSCPath = join-path "$targetTheTaskPath" "SC"
 $targetModulesPath = join-path "$targetTheTaskPath" "Modules"
 
 @($targetSDCPath, $targetSCPath, $targetModulesPath) | foreach {
-    if(test-path $_) {
-        Remove-Item $_ -Recurse
+    if(test-path "$_") {
+        Remove-Item "$_" -Recurse
     }
 }
 
-Copy-Item $sqlCompareDirectory         $targetSCPath        -recurse -force
-Copy-Item $sqlDataCompareDirectory     $targetSDCPath       -recurse -force
-Copy-Item $sqlReleaseModulesDirectory  $targetModulesPath   -recurse -force
+Copy-Item "$sqlCompareDirectory" "$targetSCPath" -recurse -force
+Copy-Item "$sqlDataCompareDirectory" "$targetSDCPath" -recurse -force
+Copy-Item "$sqlReleaseModulesDirectory" "$targetModulesPath" -recurse -force
