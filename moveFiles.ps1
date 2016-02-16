@@ -4,14 +4,20 @@ If (!$env:DLMAS_HOME)
     Exit
 }
 
-$sqlDataCompareDirectory     = $env:DLMAS_HOME + 'SDC\'
-$sqlCompareDirectory         = $env:DLMAS_HOME + 'SC\'
-$sqlReleaseModulesDirectory  = $env:DLMAS_HOME + 'Modules\'
+$sqlDataCompareDirectory = join-path "$env:DLMAS_HOME" "SDC"
+$sqlCompareDirectory = join-path "$env:DLMAS_HOME" "SC"
+$sqlReleaseModulesDirectory = join-path "$env:DLMAS_HOME" "Modules"
+$targetTheTaskPath = join-path "$PsScriptRoot" "TheTask"
+$targetSDCPath = join-path "$targetTheTaskPath" "SDC"
+$targetSCPath = join-path "$targetTheTaskPath" "SC"
+$targetModulesPath = join-path "$targetTheTaskPath" "Modules"
 
-Remove-Item .\TheTask\SDC      -Recurse
-Remove-Item .\TheTask\SC       -Recurse
-Remove-Item .\TheTask\Modules  -Recurse
+@($targetSDCPath, $targetSCPath, $targetModulesPath) | foreach {
+    if(test-path $_) {
+        Remove-Item $_ -Recurse
+    }
+}
 
-Copy-Item $sqlCompareDirectory         .\TheTask\SC        -recurse -force
-Copy-Item $sqlDataCompareDirectory     .\TheTask\SDC       -recurse -force
-Copy-Item $sqlReleaseModulesDirectory  .\TheTask\Modules   -recurse -force
+Copy-Item $sqlCompareDirectory         $targetSCPath        -recurse -force
+Copy-Item $sqlDataCompareDirectory     $targetSDCPath       -recurse -force
+Copy-Item $sqlReleaseModulesDirectory  $targetModulesPath   -recurse -force
