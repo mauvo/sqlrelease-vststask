@@ -2,7 +2,7 @@
     "manifestVersion": 1,
     "id": "redgateSqlRelease",
     "name": "Redgate SQL Release",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "publisher": "redgatesoftware",
     "description": "Safely deploy databases with Redgate's SQL Release technology",
     "public": true,
